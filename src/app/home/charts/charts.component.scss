@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 
 .chart-title {
@@ -34,20 +34,14 @@
   padding: 0;
 }
 
-.line-chart-svg {
-  width: 100%;
-  height: auto;
-}
-
 .donut-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
-.donut-svg {
-  width: 180px;
-  height: 180px;
+.donut-chart {
+  width: 200px;
   flex-shrink: 0;
 }
 

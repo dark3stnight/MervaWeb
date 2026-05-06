@@ -75,91 +75,13 @@
     <app-stats-cards [refresh]="refreshTrigger" />
 
     <!-- Charts row -->
-    <app-charts />
+    <app-charts [refresh]="refreshTrigger" />
 
-    <!-- Bottom row -->
-    <div class="bottom-row">
-      <!-- Recent transactions -->
-      <div class="card transactions-card">
-        <div class="section-header">
-          <span class="section-title">Recent transactions</span>
-          <a class="view-all" href="#">View all</a>
-        </div>
-        <div class="transactions-list">
-          @for (tx of transactions; track tx.name) {
-            <div class="tx-row">
-              <div class="tx-icon" [style.background]="tx.bg">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="tx.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
-                </svg>
-              </div>
-              <div class="tx-info">
-                <span class="tx-name">{{ tx.name }}</span>
-                <span class="tx-meta">{{ tx.date }} &bull; {{ tx.category }}</span>
-              </div>
-              <span class="tx-amount">{{ tx.amount }}</span>
-            </div>
-          }
-        </div>
-      </div>
+    <!-- Recent transactions -->
+    <app-recent-transactions [refresh]="refreshTrigger" />
 
-      <!-- Right column: Budget overview + Quick actions -->
-      <div class="right-col">
-        <div class="card budget-card">
-          <div class="section-header">
-            <span class="section-title">Budget overview</span>
-            <a class="view-all" href="#">View all</a>
-          </div>
-          @for (b of budgets; track b.category) {
-            <div class="budget-row">
-              <div class="budget-top">
-                <div class="budget-icon" [style.background]="b.color + '22'">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" [attr.stroke]="b.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
-                  </svg>
-                </div>
-                <span class="budget-name">{{ b.category }}</span>
-                <span class="budget-amounts">${{ b.spent.toFixed(2) }} / ${{ b.total.toFixed(2) }}</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" [style.width.%]="b.pct" [style.background]="b.color"></div>
-              </div>
-              <span class="budget-pct">{{ b.pct }}%</span>
-            </div>
-          }
-        </div>
-
-        <div class="card quick-actions-card">
-          <div class="section-title">Quick actions</div>
-          <div class="actions-grid">
-            <button class="action-btn">
-              <div class="action-icon green">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              </div>
-              <span>Add income</span>
-            </button>
-            <button class="action-btn">
-              <div class="action-icon purple">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-              </div>
-              <span>Add recurring</span>
-            </button>
-            <button class="action-btn">
-              <div class="action-icon orange">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </div>
-              <span>Create budget</span>
-            </button>
-            <button class="action-btn">
-              <div class="action-icon blue">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </div>
-              <span>Export data</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Quick actions -->
+    <app-quick-actions />
 
     <!-- Bottom banner -->
     <div class="card banner-card">
