@@ -1,0 +1,53 @@
+<div class="add-expense-header">
+  <span class="add-expense-title">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add expense
+  </span>
+  <span class="add-expense-hint">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#7C3AED"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    Try: Coffee 4
+  </span>
+</div>
+<div class="add-expense-form">
+  <div class="input-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    <input type="text" placeholder="What did you spend on?" [(ngModel)]="name" [disabled]="submitting" />
+  </div>
+  <input
+    type="number"
+    class="amount-input"
+    placeholder="4.00"
+    [(ngModel)]="amount"
+    [disabled]="submitting"
+  />
+  <input
+    type="text"
+    class="currency-input"
+    [(ngModel)]="currency"
+    [ngbTypeahead]="searchCurrency"
+    (focus)="currencyFocus$.next($any($event).target.value)"
+    (click)="currencyClick$.next($any($event).target.value)"
+    #currencyTypeahead="ngbTypeahead"
+    placeholder="USD"
+    autocomplete="off"
+    [disabled]="submitting"
+  />
+  <input
+    type="text"
+    class="category-input"
+    [(ngModel)]="category"
+    [ngbTypeahead]="searchCategory"
+    (focus)="categoryFocus$.next($any($event).target.value)"
+    (click)="categoryClick$.next($any($event).target.value)"
+    #categoryTypeahead="ngbTypeahead"
+    placeholder="Category"
+    autocomplete="off"
+    [disabled]="submitting"
+  />
+  <button class="add-btn" (click)="submit()" [disabled]="submitting || !name.trim() || !amount">
+    {{ submitting ? 'Adding…' : 'Add' }}
+  </button>
+</div>
+@if (error) {
+  <p class="expense-error">{{ error }}</p>
+}

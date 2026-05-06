@@ -1,0 +1,32 @@
+trigger:
+  - master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  nodeVersion: '22.17.1'
+  appFolder: '.'
+  artifactName: 'angular-app'
+  distFolder: 'dist'
+
+steps:
+  - task: UseNode@1
+    displayName: 'Use Node.js $(nodeVersion)'
+    inputs:
+      version: '$(nodeVersion)'
+
+  - script: npm install
+    displayName: 'Install dependencies'
+    workingDirectory: '$(appFolder)'
+
+  - script: npm run build -- --configuration production
+    displayName: 'Build Angular app'
+    workingDirectory: '$(appFolder)'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Angular artifact'
+    inputs:
+      targetPath: '$(appFolder)/$(distFolder)'
+      artifact: '$(artifactName)'
+      publishLocation: 'pipeline'
