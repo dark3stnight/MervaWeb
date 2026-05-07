@@ -1,0 +1,137 @@
+.access-token {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 6px 10px;
+
+  .token-label {
+    display: block;
+    font-size: 10px;
+    color: #9CA3AF;
+  }
+
+  .token-value {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: 0.5px;
+  }
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6B7280;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover { background: #F3F4F6; }
+
+  &.active {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+    color: #3B82F6;
+  }
+}
+
+.copy-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6B7280;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover { background: #F3F4F6; }
+
+  &.copied {
+    background: #D1FAE5;
+    border-color: #6EE7B7;
+    color: #10B981;
+  }
+}
+
+.token-input-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+
+  .token-input {
+    flex: 1;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-family: inherit;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background: #fff;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &::placeholder { color: #D1D5DB; }
+    &:focus { border-color: #93C5FD; }
+    &:disabled { background: #F9FAFB; color: #9CA3AF; }
+  }
+
+  .apply-btn {
+    height: 34px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    background: #EFF6FF;
+    color: #3B82F6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+      background: #DBEAFE;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.token-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #EF4444;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #BFDBFE;
+  border-top-color: #3B82F6;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

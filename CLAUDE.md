@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MervaWeb is the Angular 20 frontend for the Merva application. The companion API lives at `../Merva/MervaApi/` (HTTP :5157, HTTPS :7236). Production API: `https://mervaapi.azurewebsites.net`.
+MervaWeb is the Angular 20 frontend for the Merva application. The companion API lives at `../MervaBackend/MervaApi/` (HTTP :5157, HTTPS :7236). Production API: `https://mervaapi.azurewebsites.net`.
+
+Bootstrap 5 is imported selectively via SCSS partials in `src/styles.scss` — **not** via the pre-built CSS bundle. When adding a new Bootstrap component, import its SCSS partial there (e.g. `@import 'bootstrap/scss/badge'`). `utilities/api` must remain the last import so utility class generation works correctly.
 
 ## Commands
 
@@ -35,18 +37,23 @@ Reads the stored token via `TokenService.getStoredToken()` and attaches `Authori
 
 ### Components (`src/app/`)
 
-- **`HomeComponent`** — Dashboard shell: nav, charts, transaction list, budget bars, quick actions (currently static/mock data). Composes `StatsCardsComponent`, `AddExpenseComponent`, and `AccessTokenComponent`. Owns a `refreshTrigger` counter that increments on every `expenseAdded` event from `AddExpenseComponent` and is passed as `[refresh]` to `StatsCardsComponent`.
+- **`HomeComponent`** — Dashboard shell: nav, charts, transaction list, budget bars, quick actions. Composes `StatsCardsComponent`, `AddExpenseComponent`, `QuickActionsComponent`, and `AccessTokenComponent`. Owns a `refreshTrigger` counter that increments on every `expenseAdded` event from `AddExpenseComponent` and every `dataChanged` event from `QuickActionsComponent`; passed as `[refresh]` to `StatsCardsComponent`, `ChartsComponent`, and `RecentTransactionsComponent`.
 - **`StatsCardsComponent`** — Four live stat cards: Total Expenses, Total Income, Net Balance, Transactions. On init and on every `refresh` input change, fetches expenses and incomes in parallel via `forkJoin`. Computes totals and net balance from the API responses. Net Balance arrow reflects positive/negative sign.
 - **`AddExpenseComponent`** — Add expense form wired to the API. Submits to `POST /expenses` via `ExpenseService`. Emits `expenseAdded` on success to trigger a stats refresh. Contains two feature subfolders:
   - `ExpenseCurrency/expense-currency.ts` — `Currency` string enum
   - `ExpenseCategory/expense-category.ts` — `Category` string enum
+- **`QuickActionsComponent`** — Four action buttons that open Bootstrap modals via `NgbModal`. Emits `dataChanged` when an income is successfully added so the parent can increment `refreshTrigger`. Modal components live in `home/quick-actions/modals/`:
+  - `AddIncomeModalComponent` — full form (source, amount, currency, category, date); calls `POST /incomes` via `IncomeService.add()`; closes with result `'added'` on success
+  - `AddRecurringModalComponent` — form (name, amount, currency, category, frequency, start/end date); UI-only, no backend endpoint yet; opens at `size: 'lg'`
+  - `CreateBudgetModalComponent` — form (category, spending limit, currency, monthly/yearly period); UI-only, no backend endpoint yet
+  - `ExportDataModalComponent` — fetches real data via `ExpenseService.getAll()` / `IncomeService.getAll()` and triggers a client-side file download (CSV or JSON)
 - **`AccessTokenComponent`** — Token lifecycle: auto-generates a token on first visit, validates against API, persists in `localStorage` under key `merva_access_token`.
 - **`AppComponent`** — Root shell
 
 ### Services (`src/app/services/`)
 
 - **`ExpenseService`** — `add(request)` → `POST /expenses`; `getAll()` → `GET /expenses` (returns decrypted `AddExpenseResponse[]` ordered by date desc)
-- **`IncomeService`** — `getAll()` → `GET /incomes` (returns decrypted `IncomeResponse[]` ordered by date desc)
+- **`IncomeService`** — `add(request)` → `POST /incomes`; `getAll()` → `GET /incomes` (returns decrypted `IncomeResponse[]` ordered by date desc). `POST /incomes` backend endpoint is not yet implemented — the method is in place for when it is added.
 - **`TokenService`** — HTTP calls to `TokensController` (register, validate, get). Collects browser fingerprint data. Exposes `getStoredToken()` to read the token from `localStorage`.
 - **`HomeService`** — Calls `GET /home`
 
@@ -70,7 +77,7 @@ Strict mode fully enabled: `strict`, `noImplicitOverride`, `noImplicitReturns`, 
 
 ### Styles
 
-SCSS. Inline style language. Global styles in `src/styles.scss`. Bootstrap imported via `@use` — note: `@import` is deprecated in Dart Sass 3 and currently produces warnings (non-breaking).
+SCSS. Inline style language. Global styles in `src/styles.scss`. Bootstrap is cherry-picked via `@import` partials — only the components actually used are included. `@import` is deprecated in Dart Sass 3 and produces warnings at build time, but is non-breaking.
 
 ### Testing
 

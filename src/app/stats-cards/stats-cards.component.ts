@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { ExpenseService } from '../services/expense.service';
-import { IncomeService } from '../services/income.service';
+import { ExpenseService } from '../user-expense/services/expense.service';
+import { IncomeService } from '../user-income/services/income.service';
 
 interface StatCard {
   label: string;

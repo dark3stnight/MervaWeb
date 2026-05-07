@@ -1,0 +1,67 @@
+<div class="modal-header border-0 pb-1">
+  <h5 class="modal-title d-flex align-items-center gap-2">
+    <span class="d-inline-flex align-items-center justify-content-center rounded-2"
+          style="width:34px;height:34px;background:#D1FAE5;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+    </span>
+    Add income
+  </h5>
+  <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body pt-2">
+  @if (error) {
+    <div class="alert alert-danger py-2 small mb-3">{{ error }}</div>
+  }
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Source</label>
+    <input type="text" class="form-control" placeholder="e.g. Salary, Freelance, Bonus…"
+           [(ngModel)]="name" [disabled]="submitting" />
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-8">
+      <label class="form-label fw-semibold">Amount</label>
+      <input type="number" class="form-control" placeholder="0.00"
+             [(ngModel)]="amount" min="0" step="0.01" [disabled]="submitting" />
+    </div>
+    <div class="col-4">
+      <label class="form-label fw-semibold">Currency</label>
+      <select class="form-select" [(ngModel)]="currency" [disabled]="submitting">
+        @for (c of currencies; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">
+      Category <span class="text-muted fw-normal">(optional)</span>
+    </label>
+    <select class="form-select" [(ngModel)]="category" [disabled]="submitting">
+      <option value="">None</option>
+      @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label class="form-label fw-semibold">Date</label>
+    <input type="date" class="form-control" [(ngModel)]="incomeDate" [disabled]="submitting" />
+  </div>
+</div>
+
+<div class="modal-footer border-0">
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()" [disabled]="submitting">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-success" (click)="submit()"
+          [disabled]="submitting || !name.trim() || !amount">
+    {{ submitting ? 'Adding…' : 'Add income' }}
+  </button>
+</div>

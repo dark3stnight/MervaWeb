@@ -1,59 +1,75 @@
-# MervaClient
+# Merva Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Angular 20 SPA for the Merva personal finance tracking application. Provides a dashboard to view expenses, incomes, net balance, and manage transactions.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- **Framework**: Angular 20 (TypeScript / SCSS)
+- **UI**: Bootstrap 5 + ng-bootstrap
+- **Charts**: ApexCharts
+- **Testing**: Karma + Jasmine
+- **Deployment**: Docker (nginx:alpine), Azure Pipelines
 
-```bash
-ng serve
-```
+## Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js 20+
+- [Merva Backend](../MervaBackend) running on `:5157` / `:7236` for local development
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting Started
 
 ```bash
-ng generate --help
+npm install
+npm start        # dev server at http://localhost:4200
 ```
 
-## Building
+The dev server proxies `/home` to `http://localhost:5157`. All other API paths (`/tokens`, `/expenses`, `/incomes`) hit the HTTPS backend at `https://localhost:7236` directly.
 
-To build the project run:
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Dev server at `http://localhost:4200` |
+| `npm test` | Unit tests (Karma + Jasmine) |
+| `npm run build` | Production build → `dist/merva-client/browser/` |
+| `npm run watch` | Incremental dev build (no serve) |
+
+## Docker
 
 ```bash
-ng build
+docker build -t merva-web .
+docker run -p 80:80 merva-web
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Serves the production build via nginx on port 80.
 
-## Running unit tests
+## Features
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Dashboard** — stat cards for Total Expenses, Total Income, Net Balance, and Transaction Count, all fetched live from the API
+- **Add Expense** — form with currency and category selection; stats refresh automatically on submit
+- **Anonymous Auth** — auto-generates a token on first visit, persists it in `localStorage`, and injects `Authorization: Bearer` on every API request via an HTTP interceptor
+- **Responsive** — Bootstrap 5 layout
 
-```bash
-ng test
+## Project Structure
+
+```
+src/app/
+├── components/
+│   ├── home/              # Dashboard shell (nav, charts, layout)
+│   ├── stats-cards/       # Live stat cards (forkJoin expenses + incomes)
+│   ├── add-expense/       # Add expense form + Currency/Category enums
+│   └── access-token/      # Token lifecycle (generate, validate, persist)
+├── interceptors/
+│   └── auth.interceptor.ts   # Bearer token injection
+└── services/
+    ├── expense.service.ts
+    ├── income.service.ts
+    ├── token.service.ts
+    └── home.service.ts
 ```
 
-## Running end-to-end tests
+## Environment Configuration
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Config | API Base URL |
+|--------|-------------|
+| local (dev) | `https://localhost:7236` + proxy for `/home` |
+| production | `https://mervaapi.azurewebsites.net` |

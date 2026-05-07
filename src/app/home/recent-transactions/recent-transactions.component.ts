@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
-import { ExpenseService, AddExpenseResponse } from '../../services/expense.service';
+import { AddExpenseResponse, ExpenseService } from '../../user-expense/services/expense.service';
 
 interface Transaction {
   name: string;

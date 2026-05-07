@@ -14,7 +14,8 @@ import type {
   ApexPlotOptions,
   ApexLegend,
 } from 'ng-apexcharts';
-import { ExpenseService, AddExpenseResponse } from '../../services/expense.service';
+import { AddExpenseResponse, ExpenseService } from '../../user-expense/services/expense.service';
+
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Food & Dining': '#F472B6',

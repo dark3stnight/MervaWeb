@@ -1,0 +1,70 @@
+<div class="modal-header border-0 pb-1">
+  <h5 class="modal-title d-flex align-items-center gap-2">
+    <span class="d-inline-flex align-items-center justify-content-center rounded-2"
+          style="width:34px;height:34px;background:#FEF3C7;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    </span>
+    Create budget
+  </h5>
+  <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body pt-2">
+  <div class="alert alert-secondary py-2 small mb-3 d-flex align-items-center gap-2">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    Budget tracking is coming soon — set your limits now and they will be activated when this feature launches.
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Category</label>
+    <select class="form-select" [(ngModel)]="category">
+      <option value="">Select a category…</option>
+      @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-8">
+      <label class="form-label fw-semibold">Spending limit</label>
+      <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="limit" min="0" step="0.01" />
+    </div>
+    <div class="col-4">
+      <label class="form-label fw-semibold">Currency</label>
+      <select class="form-select" [(ngModel)]="currency">
+        @for (c of currencies; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class="form-label fw-semibold">Period</label>
+    <div class="d-flex gap-2">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="period" id="periodMonthly"
+               value="monthly" [(ngModel)]="period" />
+        <label class="form-check-label" for="periodMonthly">Monthly</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="period" id="periodYearly"
+               value="yearly" [(ngModel)]="period" />
+        <label class="form-check-label" for="periodYearly">Yearly</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer border-0">
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-warning" (click)="modal.close()"
+          [disabled]="!category || !limit">
+    Create budget
+  </button>
+</div>
