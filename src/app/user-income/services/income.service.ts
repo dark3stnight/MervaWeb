@@ -34,4 +34,8 @@ export class IncomeService {
   getAll(): Observable<IncomeResponse[]> {
     return this.http.get<IncomeResponse[]>(this.baseUrl);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

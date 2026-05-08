@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="section-header">
+    <span class="section-title">Recent transactions</span>
+    <!-- <a class="view-all" href="#">View all</a> -->
+  </div>
+  <div class="transactions-list">
+    @for (tx of transactions; track tx.name) {
+      <div class="tx-row">
+        <div class="tx-icon" [style.background]="tx.bg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="tx.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <div class="tx-info">
+          <span class="tx-name">{{ tx.name }}</span>
+          <span class="tx-meta">{{ tx.date }} &bull; {{ tx.category }}</span>
+        </div>
+        <span class="tx-amount">{{ tx.amount }}</span>
+      </div>
+    }
+  </div>
+</div>

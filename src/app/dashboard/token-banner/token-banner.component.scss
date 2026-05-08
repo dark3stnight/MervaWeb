@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 18px 24px;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  strong {
+    display: block;
+    font-size: 14px;
+    color: #7C3AED;
+    margin-bottom: 2px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 12.5px;
+    color: #6B7280;
+  }
+}
+
+.learn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #7C3AED;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover { text-decoration: underline; }
+}

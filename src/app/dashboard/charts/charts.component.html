@@ -1,0 +1,53 @@
+<div class="charts-row">
+  <!-- Area chart -->
+  <div class="card chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Expenses over time</span>
+      <button class="period-btn">This month ▾</button>
+    </div>
+    <apx-chart
+      [series]="areaSeries"
+      [chart]="areaChart"
+      [xaxis]="areaXAxis"
+      [yaxis]="areaYAxis"
+      [stroke]="areaStroke"
+      [fill]="areaFill"
+      [dataLabels]="areaDataLabels"
+      [colors]="areaColors"
+      [grid]="areaGrid"
+      [tooltip]="areaTooltip"
+    ></apx-chart>
+  </div>
+
+  <!-- Donut chart -->
+  <div class="card chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Spending by category</span>
+      <button class="period-btn">This month ▾</button>
+    </div>
+    <div class="donut-row">
+      <div class="donut-chart">
+        <apx-chart
+          [series]="donutSeries"
+          [chart]="donutChart"
+          [colors]="donutColors"
+          [labels]="donutLabels"
+          [plotOptions]="donutPlotOptions"
+          [dataLabels]="donutDataLabels"
+          [legend]="donutLegend"
+          [tooltip]="donutTooltip"
+        ></apx-chart>
+      </div>
+      <div class="legend">
+        @for (cat of categories; track cat.name) {
+          <div class="legend-item">
+            <span class="legend-dot" [style.background]="cat.color"></span>
+            <span class="legend-name">{{ cat.name }}</span>
+            <span class="legend-pct">{{ cat.pct }}%</span>
+            <span class="legend-amt">{{ cat.amount }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

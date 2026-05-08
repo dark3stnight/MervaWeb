@@ -42,8 +42,9 @@ Reads the stored token via `TokenService.getStoredToken()` and attaches `Authori
 - **`AddExpenseComponent`** — Add expense form wired to the API. Submits to `POST /expenses` via `ExpenseService`. Emits `expenseAdded` on success to trigger a stats refresh. Contains two feature subfolders:
   - `ExpenseCurrency/expense-currency.ts` — `Currency` string enum
   - `ExpenseCategory/expense-category.ts` — `Category` string enum
-- **`QuickActionsComponent`** — Four action buttons that open Bootstrap modals via `NgbModal`. Emits `dataChanged` when an income is successfully added so the parent can increment `refreshTrigger`. Modal components live in `home/quick-actions/modals/`:
+- **`QuickActionsComponent`** — Action buttons that open Bootstrap modals via `NgbModal`. Emits `dataChanged` when an income is successfully added or a transaction is deleted, so the parent can increment `refreshTrigger`. Modal components live in `home/quick-actions/modals/`:
   - `AddIncomeModalComponent` — full form (source, amount, currency, category, date); calls `POST /incomes` via `IncomeService.add()`; closes with result `'added'` on success
+  - `ManageTransactionsModalComponent` — lists all expenses and incomes in tabbed view; delete buttons call `DELETE /expenses/{id}` / `DELETE /incomes/{id}`; tracks changes and closes with result `'changed'` if any deletion occurred; opens at `size: 'lg'`
   - `AddRecurringModalComponent` — form (name, amount, currency, category, frequency, start/end date); UI-only, no backend endpoint yet; opens at `size: 'lg'`
   - `CreateBudgetModalComponent` — form (category, spending limit, currency, monthly/yearly period); UI-only, no backend endpoint yet
   - `ExportDataModalComponent` — fetches real data via `ExpenseService.getAll()` / `IncomeService.getAll()` and triggers a client-side file download (CSV or JSON)
@@ -52,8 +53,8 @@ Reads the stored token via `TokenService.getStoredToken()` and attaches `Authori
 
 ### Services (`src/app/services/`)
 
-- **`ExpenseService`** — `add(request)` → `POST /expenses`; `getAll()` → `GET /expenses` (returns decrypted `AddExpenseResponse[]` ordered by date desc)
-- **`IncomeService`** — `add(request)` → `POST /incomes`; `getAll()` → `GET /incomes` (returns decrypted `IncomeResponse[]` ordered by date desc). `POST /incomes` backend endpoint is not yet implemented — the method is in place for when it is added.
+- **`ExpenseService`** — `add(request)` → `POST /expenses`; `getAll()` → `GET /expenses` (returns decrypted `AddExpenseResponse[]` ordered by date desc, soft-deleted rows excluded by backend); `delete(id)` → `DELETE /expenses/{id}`
+- **`IncomeService`** — `add(request)` → `POST /incomes`; `getAll()` → `GET /incomes` (returns decrypted `IncomeResponse[]` ordered by date desc, soft-deleted rows excluded by backend); `delete(id)` → `DELETE /incomes/{id}`
 - **`TokenService`** — HTTP calls to `TokensController` (register, validate, get). Collects browser fingerprint data. Exposes `getStoredToken()` to read the token from `localStorage`.
 - **`HomeService`** — Calls `GET /home`
 
@@ -77,7 +78,9 @@ Strict mode fully enabled: `strict`, `noImplicitOverride`, `noImplicitReturns`, 
 
 ### Styles
 
-SCSS. Inline style language. Global styles in `src/styles.scss`. Bootstrap is cherry-picked via `@import` partials — only the components actually used are included. `@import` is deprecated in Dart Sass 3 and produces warnings at build time, but is non-breaking.
+SCSS. Inline style language. Global styles in `src/styles.scss`. Bootstrap is cherry-picked via `@import` partials — only the components actually used are included. `@import` is deprecated in Dart Sass 3 and produces warnings at build time, but is non-breaking. Currently imported partials: `grid`, `forms`, `buttons`, `transitions`, `close`, `modal`, `alert`, `tooltip`, `dropdown`, `nav`.
+
+FontAwesome 6 (free) is loaded via CDN in `src/index.html`.
 
 ### Testing
 

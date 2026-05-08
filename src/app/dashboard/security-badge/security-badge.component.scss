@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  padding: 16px 14px 4px;
+  border-top: 1px solid #F3F4F6;
+  margin-top: 12px;
+}
+
+.security-badge {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  strong {
+    display: block;
+    font-size: 13px;
+    color: #374151;
+    margin-bottom: 3px;
+  }
+
+  p {
+    font-size: 11.5px;
+    color: #9CA3AF;
+    margin: 0 0 4px;
+    line-height: 1.4;
+  }
+}
+
+.learn-more-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11.5px;
+  color: #7C3AED;
+  cursor: pointer;
+
+  &:hover { text-decoration: underline; }
+}

@@ -34,4 +34,8 @@ export class ExpenseService {
   getAll(): Observable<AddExpenseResponse[]> {
     return this.http.get<AddExpenseResponse[]>(this.baseUrl);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }
