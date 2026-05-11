@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MervaWeb is the Angular 20 frontend for the Merva application. The companion API lives at `../MervaBackend/MervaApi/` (HTTP :5157, HTTPS :7236). Production API: `https://mervaapi.azurewebsites.net`.
+MervaWeb is the Angular 21 frontend for the Merva application. The companion API lives at `../MervaBackend/MervaApi/` (HTTP :5157, HTTPS :7236). Production API: `https://mervaapi.azurewebsites.net`.
 
 Bootstrap 5 is imported selectively via SCSS partials in `src/styles.scss` — **not** via the pre-built CSS bundle. When adding a new Bootstrap component, import its SCSS partial there (e.g. `@import 'bootstrap/scss/badge'`). `utilities/api` must remain the last import so utility class generation works correctly.
 
