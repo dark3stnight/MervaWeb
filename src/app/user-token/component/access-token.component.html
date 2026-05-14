@@ -5,13 +5,13 @@
   </div>
     <button class="copy-btn" [class.copied]="copied" title="Copy token" (click)="copyToken()" ngbTooltip="Copy to clipboard">
     @if (copied) {
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <i class="fa-solid fa-check"></i>
     } @else {
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <i class="fa-regular fa-copy"></i>
     }
   </button>
   <button class="icon-btn" [class.active]="showInput" title="Use a different token" (click)="toggleInput()"  ngbTooltip="Use a different token">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    <i class="fa-solid fa-arrows-rotate"></i>
   </button>
 </div>
 @if (showInput) {
