@@ -1,0 +1,13 @@
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+.tab-content-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 0.5rem;
+}

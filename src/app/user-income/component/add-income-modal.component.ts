@@ -7,6 +7,7 @@ import { IncomeService } from '../services/income.service';
 import { TokenService } from '../../user-token/services/token.service';
 import { Currency } from '../../user-expense/models/expense-currency';
 import { IncomeCategory } from '../models/income-category';
+import { AppStateService } from '../../state/app-state.service';
 
 @Component({
   selector: 'app-add-income-modal',
@@ -18,10 +19,11 @@ export class AddIncomeModalComponent {
   readonly modal = inject(NgbActiveModal);
   private incomeService = inject(IncomeService);
   private tokenService = inject(TokenService);
+  private appState = inject(AppStateService);
 
   name = '';
   amount: number | null = null;
-  currency = Currency.USD;
+  currency = this.appState.currency() ?? Currency.USD;
   category: IncomeCategory | '' = '';
   incomeDate = new Date().toISOString().split('T')[0];
   submitting = false;
@@ -59,7 +61,10 @@ export class AddIncomeModalComponent {
       category: this.category || undefined,
       incomeDate: this.incomeDate,
     }).subscribe({
-      next: () => this.modal.close('added'),
+      next: () => {
+        this.appState.loadAll();
+        this.modal.close('added');
+      },
       error: () => {
         this.error = 'Failed to add income. Please try again.';
         this.submitting = false;

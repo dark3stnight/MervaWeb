@@ -1,17 +1,17 @@
 <div class="access-token">
-  <div>
-    <span class="token-label" ngbTooltip="This is your personal token, you can use it to track your expenses in different devices, just copy paste and save in a notepad!">Your access token</span>
+  <div ngbTooltip="This is your personal token, you can use it to track your expenses in different devices, just copy paste and save in a notepad!">
+    <span class="token-label">Your access token</span>
     <span class="token-value">{{ accessToken }}</span>
   </div>
-  <button class="icon-btn" [class.active]="showInput" title="Use a different token" (click)="toggleInput()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-  </button>
-  <button class="copy-btn" [class.copied]="copied" title="Copy token" (click)="copyToken()">
+    <button class="copy-btn" [class.copied]="copied" title="Copy token" (click)="copyToken()" ngbTooltip="Copy to clipboard">
     @if (copied) {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     } @else {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     }
+  </button>
+  <button class="icon-btn" [class.active]="showInput" title="Use a different token" (click)="toggleInput()"  ngbTooltip="Use a different token">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
   </button>
 </div>
 @if (showInput) {

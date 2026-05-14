@@ -10,6 +10,7 @@ export interface AddExpenseRequest {
   currency?: string;
   category?: string;
   expenseDate: string;
+  favoriteCurrency?: string;
 }
 
 export interface AddExpenseResponse {

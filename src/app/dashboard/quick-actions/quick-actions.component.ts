@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddRecurringModalComponent } from '../../user-expense/recurring-modal/add-recurring-modal.component';
 import { AddIncomeModalComponent } from '../../user-income/component/add-income-modal.component';
@@ -12,15 +12,10 @@ import { ManageTransactionsModalComponent } from '../../user-transactions/compon
   styleUrl: './quick-actions.component.scss',
 })
 export class QuickActionsComponent {
-  @Output() dataChanged = new EventEmitter<void>();
-
   private modalService = inject(NgbModal);
 
   openAddIncome() {
-    const ref = this.modalService.open(AddIncomeModalComponent, { centered: true });
-    ref.closed.subscribe(result => {
-      if (result === 'added') this.dataChanged.emit();
-    });
+    this.modalService.open(AddIncomeModalComponent, { centered: true });
   }
 
   openAddRecurring() {
@@ -28,9 +23,6 @@ export class QuickActionsComponent {
   }
 
   openManageTransactions() {
-    const ref = this.modalService.open(ManageTransactionsModalComponent, { centered: true, size: 'lg' });
-    ref.closed.subscribe(result => {
-      if (result === 'changed') this.dataChanged.emit();
-    });
+    this.modalService.open(ManageTransactionsModalComponent, { centered: true, size: 'lg' });
   }
 }

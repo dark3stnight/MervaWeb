@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import type {
   ApexAxisChartSeries,
@@ -14,7 +14,8 @@ import type {
   ApexPlotOptions,
   ApexLegend,
 } from 'ng-apexcharts';
-import { AddExpenseResponse, ExpenseService } from '../../user-expense/services/expense.service';
+import { AddExpenseResponse } from '../../user-expense/services/expense.service';
+import { AppStateService } from '../../state/app-state.service';
 
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -39,10 +40,8 @@ const FALLBACK_COLORS = ['#F472B6', '#60A5FA', '#FBBF24', '#A78BFA', '#34D399', 
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.scss'
 })
-export class ChartsComponent implements OnInit, OnChanges {
-  @Input() refresh = 0;
-
-  private expenseService = inject(ExpenseService);
+export class ChartsComponent {
+  private appState = inject(AppStateService);
 
   categories: { name: string; pct: number; amount: string; color: string }[] = [];
 
@@ -135,18 +134,9 @@ export class ChartsComponent implements OnInit, OnChanges {
     y: { formatter: (val: number) => val.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) },
   };
 
-  ngOnInit() {
-    this.loadCharts();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['refresh'] && !changes['refresh'].firstChange) {
-      this.loadCharts();
-    }
-  }
-
-  private loadCharts() {
-    this.expenseService.getAll().subscribe(expenses => {
+  constructor() {
+    effect(() => {
+      const expenses = this.appState.expenses();
       this.buildAreaChart(expenses);
       this.buildDonutChart(expenses);
     });

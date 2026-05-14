@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, effect, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { merge, Observable, OperatorFunction, Subject } from 'rxjs';
@@ -7,6 +7,8 @@ import { Currency } from '../models/expense-currency';
 import { Category } from '../models/expense-category';
 import { ExpenseService } from '../services/expense.service';
 import { TokenService } from '../../user-token/services/token.service';
+import { PreferenceKeys } from '../../user-preference/preference-keys';
+import { AppStateService } from '../../state/app-state.service';
 
 export { Currency, Category };
 
@@ -18,15 +20,22 @@ export { Currency, Category };
   styleUrl: './add-expense.component.scss',
 })
 export class AddExpenseComponent {
-  @Output() expenseAdded = new EventEmitter<void>();
+  private expenseService = inject(ExpenseService);
+  private tokenService = inject(TokenService);
+  private appState = inject(AppStateService);
 
   name = '';
   amount: number | null = null;
   currency: Currency = Currency.USD;
   category: Category | '' = '';
+  expenseDate: string = this.today();
+  favoriteCurrency = false;
 
   submitting = false;
   error = '';
+
+  private resetCurrency: Currency = Currency.USD;
+  private _currencyApplied = false;
 
   readonly currencies = Object.values(Currency);
   readonly categories = Object.values(Category);
@@ -39,8 +48,28 @@ export class AddExpenseComponent {
   @ViewChild('currencyTypeahead') currencyTypeahead!: NgbTypeahead;
   @ViewChild('categoryTypeahead') categoryTypeahead!: NgbTypeahead;
 
-  private expenseService = inject(ExpenseService);
-  private tokenService = inject(TokenService);
+  constructor() {
+    effect(() => {
+      const pref = this.appState.currency();
+      if (pref && !this._currencyApplied) {
+        this._currencyApplied = true;
+        this.resetCurrency = pref;
+        this.favoriteCurrency = true;
+        this.currency = pref;
+      }
+    });
+  }
+
+  onFavoriteCurrencyChange(checked: boolean) {
+    this.favoriteCurrency = checked;
+    if (checked) {
+      this.resetCurrency = this.currency;
+      localStorage.setItem(PreferenceKeys.FAVORITE_CURRENCY, this.currency);
+    } else {
+      this.resetCurrency = Currency.USD;
+      localStorage.removeItem(PreferenceKeys.FAVORITE_CURRENCY);
+    }
+  }
 
   searchCurrency: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(150), distinctUntilChanged());
@@ -73,28 +102,32 @@ export class AddExpenseComponent {
     this.submitting = true;
     this.error = '';
 
-    const today = new Date().toISOString().split('T')[0];
-
     this.expenseService.add({
       token,
       name: this.name.trim(),
       amount: Math.abs(this.amount),
       currency: this.currency || undefined,
       category: this.category || undefined,
-      expenseDate: today,
+      expenseDate: this.expenseDate || this.today(),
+      favoriteCurrency: this.favoriteCurrency ? this.currency : undefined,
     }).subscribe({
       next: () => {
         this.name = '';
         this.amount = null;
-        this.currency = Currency.USD;
+        this.currency = this.resetCurrency;
         this.category = '';
+        this.expenseDate = this.today();
         this.submitting = false;
-        this.expenseAdded.emit();
+        this.appState.loadAll();
       },
       error: () => {
         this.error = 'Failed to add expense. Please try again.';
         this.submitting = false;
       },
     });
+  }
+
+  private today(): string {
+    return new Date().toISOString().split('T')[0];
   }
 }

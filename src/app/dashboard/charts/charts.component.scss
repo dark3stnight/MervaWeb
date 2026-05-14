@@ -85,3 +85,24 @@
   width: 54px;
   text-align: right;
 }
+
+@media (max-width: 768px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+
+  .donut-chart {
+    width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .donut-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .donut-chart {
+    width: 140px;
+  }
+}

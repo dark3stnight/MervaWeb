@@ -13,26 +13,13 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
     <input type="text" placeholder="What did you spend on?" [(ngModel)]="name" [disabled]="submitting" />
   </div>
-  <input
-    type="number"
-    class="amount-input"
-    placeholder="4.00"
-    [(ngModel)]="amount"
+    <input
+    type="date"
+    class="date-input"
+    [(ngModel)]="expenseDate"
     [disabled]="submitting"
   />
-  <input
-    type="text"
-    class="currency-input"
-    [(ngModel)]="currency"
-    [ngbTypeahead]="searchCurrency"
-    (focus)="currencyFocus$.next($any($event).target.value)"
-    (click)="currencyClick$.next($any($event).target.value)"
-    #currencyTypeahead="ngbTypeahead"
-    placeholder="USD"
-    autocomplete="off"
-    [disabled]="submitting"
-  />
-  <input
+    <input
     type="text"
     class="category-input"
     [(ngModel)]="category"
@@ -44,6 +31,39 @@
     autocomplete="off"
     [disabled]="submitting"
   />
+  <input
+    type="number"
+    class="amount-input"
+    placeholder="4.00"
+    [(ngModel)]="amount"
+    [disabled]="submitting"
+  />
+  <div class="currency-wrap">
+    <input
+      type="text"
+      class="currency-input"
+      [(ngModel)]="currency"
+      [ngbTypeahead]="searchCurrency"
+      (focus)="currencyFocus$.next($any($event).target.value); $any($event).target.select()"
+      (click)="currencyClick$.next($any($event).target.value)"
+      #currencyTypeahead="ngbTypeahead"
+      placeholder="USD"
+      autocomplete="off"
+      [disabled]="submitting"
+    />
+    <button
+      class="favorite-currency-star"
+      [class.active]="favoriteCurrency"
+      (click)="onFavoriteCurrencyChange(!favoriteCurrency)"
+      [disabled]="submitting"
+      type="button"
+      title="Favorite currency"
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    </button>
+  </div>
   <button class="add-btn" (click)="submit()" [disabled]="submitting || !name.trim() || !amount">
     {{ submitting ? 'Adding…' : 'Add' }}
   </button>

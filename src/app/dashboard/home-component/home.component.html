@@ -3,10 +3,10 @@
   <aside class="sidebar">
     <div class="logo">      
         <img class="logo-image" src="owl-logo.png" alt="Merva logo"/>      
-        <h1 class="brand-name">Mervane</h1>
+        <h1 class="brand-name">Mervane =)</h1>
     </div>
 
-    <nav>
+    <!-- <nav>
       @for (item of navItems; track item.label) {
         <a class="nav-item" [class.active]="item.active">
           <span class="nav-icon">
@@ -29,7 +29,7 @@
           {{ item.label }}
         </a>
       }
-    </nav>
+    </nav> -->
 
     <app-security-badge />
   </aside>
@@ -58,19 +58,19 @@
     </div>
 
     <!-- Add Expense -->
-    <app-add-expense (expenseAdded)="onExpenseAdded()" />
-
-    <!-- Stat cards -->
-    <app-stats-cards [refresh]="refreshTrigger" />
-
-    <!-- Charts row -->
-    <app-charts [refresh]="refreshTrigger" />
-
-    <!-- Recent transactions -->
-    <app-recent-transactions [refresh]="refreshTrigger" />
+    <app-add-expense />
 
     <!-- Quick actions -->
-    <app-quick-actions (dataChanged)="onExpenseAdded()" />
+    <app-quick-actions />
+
+    <!-- Stat cards -->
+    <app-stats-cards />
+
+    <!-- Charts row -->
+    <app-charts />
+
+    <!-- Recent transactions -->
+    <app-recent-transactions />
 
     <!-- Bottom banner -->
     <app-token-banner />
