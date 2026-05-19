@@ -1,35 +1,17 @@
 <div class="card">
-  <span class="section-title">Quick actions</span>
+  <span class="section-title">{{ 'actions.title' | translate }}</span>
   <div class="actions-grid">
     <button class="action-btn" (click)="openAddIncome()">
       <div class="action-icon green">
         <i class="fa-solid fa-circle-plus" style="color:#10B981"></i>
       </div>
-      <span>Add income</span>
+      <span>{{ 'actions.addIncome' | translate }}</span>
     </button>
     <button class="action-btn" (click)="openManageTransactions()">
       <div class="action-icon teal">
         <i class="fa-solid fa-list" style="color:#14B8A6"></i>
       </div>
-      <span>Manage transactions</span>
+      <span>{{ 'actions.manageTransactions' | translate }}</span>
     </button>
-    <!-- <button class="action-btn" (click)="openAddRecurring()">
-      <div class="action-icon purple">
-        <i class="fa-solid fa-repeat" style="color:#7C3AED"></i>
-      </div>
-      <span>Add recurring</span>
-    </button> -->
-    <!-- <button class="action-btn" (click)="openCreateBudget()">
-      <div class="action-icon orange">
-        <i class="fa-solid fa-display" style="color:#F59E0B"></i>
-      </div>
-      <span>Create budget</span>
-    </button> -->
-    <!-- <button class="action-btn" (click)="openExportData()">
-      <div class="action-icon blue">
-        <i class="fa-solid fa-download" style="color:#3B82F6"></i>
-      </div>
-      <span>Export data</span>
-    </button> -->
   </div>
 </div>

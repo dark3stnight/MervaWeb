@@ -32,8 +32,8 @@ export class ExpenseService {
     return this.http.post<AddExpenseResponse>(this.baseUrl, request);
   }
 
-  getAll(): Observable<AddExpenseResponse[]> {
-    return this.http.get<AddExpenseResponse[]>(this.baseUrl);
+  getAll(months = 3): Observable<AddExpenseResponse[]> {
+    return this.http.get<AddExpenseResponse[]>(this.baseUrl, { params: { months } });
   }
 
   delete(id: number): Observable<void> {

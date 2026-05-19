@@ -1,0 +1,4 @@
+<select class="lang-select" (change)="setLang($any($event.target).value)" [value]="langService.lang()">
+  <option value="en">English</option>
+  <option value="es">Español</option>
+</select>

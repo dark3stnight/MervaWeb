@@ -4,13 +4,13 @@
           style="width:34px;height:34px;background:#EDE9FE;flex-shrink:0">
       <i class="fa-solid fa-file-lines" style="color:#7C3AED"></i>
     </span>
-    Terms of Service
+    {{ 'terms.title' | translate }}
   </h5>
   <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
 </div>
 
 <div class="modal-body pt-2 pb-3">
-  <p class="text-muted mb-3" style="font-size:12px">Last updated May 2025</p>
+  <p class="text-muted mb-3" style="font-size:12px">{{ 'terms.lastUpdated' | translate }}</p>
 
   <div class="d-flex flex-column gap-3">
 
@@ -20,12 +20,8 @@
         <i class="fa-solid fa-user" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Acceptance</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          By using Mervane you agree to these terms. If you do not agree, please discontinue use.
-          We reserve the right to update these terms at any time; continued use constitutes
-          acceptance of any changes.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'terms.acceptanceTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'terms.acceptanceBody' | translate }}</p>
       </div>
     </div>
 
@@ -35,12 +31,8 @@
         <i class="fa-solid fa-lock" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Token responsibility</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Your access token is your sole credential. You are responsible for keeping it
-          confidential. We cannot recover a lost token or identify who owns a given set of data.
-          Any action taken with your token is your responsibility.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'terms.tokenTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'terms.tokenBody' | translate }}</p>
       </div>
     </div>
 
@@ -50,12 +42,8 @@
         <i class="fa-solid fa-circle-info" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">No warranty</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Mervane is provided "as is" without warranty of any kind. We do not guarantee
-          uninterrupted availability, error-free operation, or the permanent retention of your
-          data. Use the service at your own risk.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'terms.warrantyTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'terms.warrantyBody' | translate }}</p>
       </div>
     </div>
 
@@ -65,12 +53,8 @@
         <i class="fa-solid fa-dollar-sign" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Acceptable use</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Mervane is intended for personal finance tracking only. You may not use the service
-          for unlawful purposes, attempt to reverse-engineer the encryption, or interfere with
-          the security or availability of the platform.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'terms.acceptableUseTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'terms.acceptableUseBody' | translate }}</p>
       </div>
     </div>
 
@@ -78,5 +62,5 @@
 </div>
 
 <div class="modal-footer border-0 pt-0">
-  <button type="button" class="btn btn-light" (click)="modal.dismiss()">Close</button>
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'modal.close' | translate }}</button>
 </div>

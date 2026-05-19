@@ -8,11 +8,12 @@ import { TokenService } from '../../user-token/services/token.service';
 import { Currency } from '../../user-expense/models/expense-currency';
 import { IncomeCategory } from '../models/income-category';
 import { AppStateService } from '../../state/app-state.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-add-income-modal',
   standalone: true,
-  imports: [FormsModule, NgbTypeahead],
+  imports: [FormsModule, NgbTypeahead, TranslatePipe],
   templateUrl: './add-income-modal.component.html',
 })
 export class AddIncomeModalComponent {
@@ -66,7 +67,7 @@ export class AddIncomeModalComponent {
         this.modal.close('added');
       },
       error: () => {
-        this.error = 'Failed to add income. Please try again.';
+        this.error = 'income.error';
         this.submitting = false;
       },
     });

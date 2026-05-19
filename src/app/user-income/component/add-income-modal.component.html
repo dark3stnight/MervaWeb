@@ -4,30 +4,30 @@
           style="width:34px;height:34px;background:#D1FAE5;flex-shrink:0">
       <i class="fa-solid fa-circle-plus" style="color:#10B981"></i>
     </span>
-    Add income
+    {{ 'income.addIncome' | translate }}
   </h5>
   <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
 </div>
 
 <div class="modal-body pt-2">
   @if (error) {
-    <div class="alert alert-danger py-2 small mb-3">{{ error }}</div>
+    <div class="alert alert-danger py-2 small mb-3">{{ error | translate }}</div>
   }
 
   <div class="mb-3">
-    <label class="form-label fw-semibold">Source</label>
-    <input type="text" class="form-control" placeholder="e.g. Salary, Freelance, Bonus…"
+    <label class="form-label fw-semibold">{{ 'income.source' | translate }}</label>
+    <input type="text" class="form-control" [placeholder]="'income.sourcePlaceholder' | translate"
            [(ngModel)]="name" [disabled]="submitting" />
   </div>
 
   <div class="row g-2 mb-3">
     <div class="col-8">
-      <label class="form-label fw-semibold">Amount</label>
+      <label class="form-label fw-semibold">{{ 'income.amount' | translate }}</label>
       <input type="number" class="form-control" placeholder="0.00"
              [(ngModel)]="amount" min="0" step="0.01" [disabled]="submitting" />
     </div>
     <div class="col-4">
-      <label class="form-label fw-semibold">Currency</label>
+      <label class="form-label fw-semibold">{{ 'income.currency' | translate }}</label>
       <input
         type="text"
         class="form-control"
@@ -45,28 +45,28 @@
 
   <div class="mb-3">
     <label class="form-label fw-semibold">
-      Category <span class="text-muted fw-normal">(optional)</span>
+      {{ 'income.category' | translate }} <span class="text-muted fw-normal">{{ 'income.categoryOptional' | translate }}</span>
     </label>
     <select class="form-select" [(ngModel)]="category" [disabled]="submitting">
-      <option value="">None</option>
+      <option value="">{{ 'income.none' | translate }}</option>
       @for (cat of categories; track cat) {
-        <option [value]="cat">{{ cat }}</option>
+        <option [value]="cat">{{ ('incomeCategory.' + cat) | translate }}</option>
       }
     </select>
   </div>
 
   <div>
-    <label class="form-label fw-semibold">Date</label>
+    <label class="form-label fw-semibold">{{ 'income.date' | translate }}</label>
     <input type="date" class="form-control" [(ngModel)]="incomeDate" [disabled]="submitting" />
   </div>
 </div>
 
 <div class="modal-footer border-0">
   <button type="button" class="btn btn-light" (click)="modal.dismiss()" [disabled]="submitting">
-    Cancel
+    {{ 'income.cancel' | translate }}
   </button>
   <button type="button" class="btn btn-success" (click)="submit()"
           [disabled]="submitting || !name.trim() || !amount">
-    {{ submitting ? 'Adding…' : 'Add income' }}
+    {{ (submitting ? 'income.adding' : 'income.add') | translate }}
   </button>
 </div>

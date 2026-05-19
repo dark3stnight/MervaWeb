@@ -3,13 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TokenService } from '../services/token.service';
+import { AppStateService } from '../../state/app-state.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 const TOKEN_KEY = 'merva_access_token';
 
 @Component({
   selector: 'app-access-token',
   standalone: true,
-  imports: [NgbTooltip, FormsModule],
+  imports: [NgbTooltip, FormsModule, TranslatePipe],
   templateUrl: './access-token.component.html',
   styleUrl: './access-token.component.scss'
 })
@@ -17,11 +19,13 @@ export class AccessTokenComponent {
   accessToken = '';
   copied = false;
   showInput = false;
+  showConfirm = false;
   inputToken = '';
   tokenError = '';
   validating = false;
 
   private tokenService = inject(TokenService);
+  private appState = inject(AppStateService);
 
   ngOnInit() {
     const stored = localStorage.getItem(TOKEN_KEY);
@@ -38,8 +42,24 @@ export class AccessTokenComponent {
 
   toggleInput() {
     this.showInput = !this.showInput;
+    this.showConfirm = false;
     this.inputToken = '';
     this.tokenError = '';
+  }
+
+  eraseToken() {
+    this.showConfirm = true;
+    this.showInput = false;
+  }
+
+  confirmErase() {
+    localStorage.removeItem(TOKEN_KEY);
+    this.accessToken = '';
+    this.showConfirm = false;
+  }
+
+  cancelErase() {
+    this.showConfirm = false;
   }
 
   submitToken() {
@@ -59,7 +79,7 @@ export class AccessTokenComponent {
         this.syncWithApi(token, false);
       },
       error: () => {
-        this.tokenError = 'Token not found. Please check and try again.';
+        this.tokenError = 'token.notFound';
         this.validating = false;
       },
     });
@@ -73,9 +93,10 @@ export class AccessTokenComponent {
     return token;
   }
 
-  private syncWithApi(token: string, isNew: boolean) {
-    const browserData = this.tokenService.collectBrowserData();    
-      this.tokenService.registerToken({ token, ...browserData }).subscribe();
-      return;    
+  private async syncWithApi(token: string, isNew: boolean) {
+    const browserData = await this.tokenService.collectBrowserData();
+    this.tokenService.registerToken({ token, ...browserData }).subscribe({
+      next: (response) => this.appState.setIsPremium(response.isPremium),
+    });
   }
 }

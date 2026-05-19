@@ -1,25 +1,35 @@
 <div class="access-token">
-  <div ngbTooltip="This is your personal token, you can use it to track your expenses in different devices, just copy paste and save in a notepad!">
-    <span class="token-label">Your access token</span>
+  <div [ngbTooltip]="'token.tooltip' | translate">
+    <span class="token-label">{{ 'token.label' | translate }}</span>
     <span class="token-value">{{ accessToken }}</span>
   </div>
-    <button class="copy-btn" [class.copied]="copied" title="Copy token" (click)="copyToken()" ngbTooltip="Copy to clipboard">
+  <button class="copy-btn" [class.copied]="copied" [title]="'token.copy' | translate" (click)="copyToken()" [ngbTooltip]="'token.copy' | translate">
     @if (copied) {
       <i class="fa-solid fa-check"></i>
     } @else {
       <i class="fa-regular fa-copy"></i>
     }
   </button>
-  <button class="icon-btn" [class.active]="showInput" title="Use a different token" (click)="toggleInput()"  ngbTooltip="Use a different token">
+  <button class="icon-btn" [class.active]="showInput" [title]="'token.switchToken' | translate" (click)="toggleInput()" [ngbTooltip]="'token.switchToken' | translate">
     <i class="fa-solid fa-arrows-rotate"></i>
   </button>
+  <button class="icon-btn danger" [class.active]="showConfirm" [title]="'token.removeToken' | translate" (click)="eraseToken()" [ngbTooltip]="'token.removeToken' | translate">
+    <i class="fa-solid fa-trash"></i>
+  </button>
 </div>
+@if (showConfirm) {
+  <div class="confirm-row">
+    <span class="confirm-text">{{ 'token.removeConfirm' | translate }}</span>
+    <button class="confirm-btn" (click)="confirmErase()">{{ 'token.remove' | translate }}</button>
+    <button class="cancel-btn" (click)="cancelErase()">{{ 'token.cancel' | translate }}</button>
+  </div>
+}
 @if (showInput) {
   <div class="token-input-row">
     <input
       class="token-input"
       type="text"
-      placeholder="e.g. XXXX-XXXX-XXXX"
+      [placeholder]="'token.placeholder' | translate"
       [(ngModel)]="inputToken"
       (keyup.enter)="submitToken()"
       [disabled]="validating"
@@ -29,11 +39,11 @@
       @if (validating) {
         <span class="spinner"></span>
       } @else {
-        Apply
+        {{ 'token.apply' | translate }}
       }
     </button>
   </div>
   @if (tokenError) {
-    <span class="token-error">{{ tokenError }}</span>
+    <span class="token-error">{{ tokenError | translate }}</span>
   }
 }

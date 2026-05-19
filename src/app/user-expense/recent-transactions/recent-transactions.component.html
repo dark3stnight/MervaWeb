@@ -1,6 +1,6 @@
 <div class="card">
   <div class="section-header">
-    <span class="section-title">Recent transactions</span>
+    <span class="section-title">{{ 'transactions.title' | translate }}</span>
     <!-- <a class="view-all" href="#">View all</a> -->
   </div>
   <div class="transactions-list">
@@ -11,7 +11,7 @@
         </div>
         <div class="tx-info">
           <span class="tx-name">{{ tx.name }}</span>
-          <span class="tx-meta">{{ tx.date }} &bull; {{ tx.category }}</span>
+          <span class="tx-meta">{{ tx.date }} &bull; {{ ('category.' + tx.category) | translate }}</span>
         </div>
         <span class="tx-amount">{{ tx.amount }}</span>
       </div>

@@ -4,13 +4,13 @@
           style="width:34px;height:34px;background:#EDE9FE;flex-shrink:0">
       <i class="fa-solid fa-file-lines" style="color:#7C3AED"></i>
     </span>
-    Privacy Policy
+    {{ 'privacy.title' | translate }}
   </h5>
   <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
 </div>
 
 <div class="modal-body pt-2 pb-3">
-  <p class="text-muted mb-3" style="font-size:12px">Last updated May 2025</p>
+  <p class="text-muted mb-3" style="font-size:12px">{{ 'privacy.lastUpdated' | translate }}</p>
 
   <div class="d-flex flex-column gap-3">
 
@@ -20,13 +20,8 @@
         <i class="fa-solid fa-chart-line" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">What we collect</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          We store your encrypted financial records (names, amounts, currencies, categories, and dates)
-          and an anonymous access token. All financial fields are encrypted with AES-256-CBC before
-          reaching our database. We do not collect your name, email address, or any other
-          personally identifiable information.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'privacy.collectTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'privacy.collectBody' | translate }}</p>
       </div>
     </div>
 
@@ -36,12 +31,8 @@
         <i class="fa-solid fa-ban" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">What we don't collect</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          We do not use tracking cookies, advertising pixels, or analytics that identify you
-          personally. We do not sell, share, or disclose your data to third parties for any
-          commercial purpose.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'privacy.dontCollectTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'privacy.dontCollectBody' | translate }}</p>
       </div>
     </div>
 
@@ -51,12 +42,8 @@
         <i class="fa-solid fa-shield-halved" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Data security</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Your data is encrypted at rest using AES-256-CBC with a unique initialization vector per
-          field. Access is gated by your anonymous token, which is verified via a one-way SHA-256
-          hash — the raw token is never stored in plaintext.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'privacy.securityTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'privacy.securityBody' | translate }}</p>
       </div>
     </div>
 
@@ -66,12 +53,8 @@
         <i class="fa-solid fa-trash" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Your rights</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          You can delete any transaction at any time from the Manage Transactions panel. Because
-          there is no account linked to an email address, we are unable to identify or retrieve
-          data on your behalf — your token is the only key to your records.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'privacy.rightsTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'privacy.rightsBody' | translate }}</p>
       </div>
     </div>
 
@@ -79,5 +62,5 @@
 </div>
 
 <div class="modal-footer border-0 pt-0">
-  <button type="button" class="btn btn-light" (click)="modal.dismiss()">Close</button>
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'modal.close' | translate }}</button>
 </div>

@@ -10,17 +10,19 @@ import { TokenBannerComponent } from '../token-banner/token-banner.component';
 import { FooterComponent } from '../footer/footer.component';
 import { HomeService } from '../services/home.service';
 import { AppStateService } from '../../state/app-state.service';
+import { LanguageSelectorComponent } from '../../i18n/language-selector/language-selector.component';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AccessTokenComponent, AddExpenseComponent, StatsCardsComponent, ChartsComponent, RecentTransactionsComponent, QuickActionsComponent, SecurityBadgeComponent, TokenBannerComponent, FooterComponent],
+  imports: [AccessTokenComponent, AddExpenseComponent, StatsCardsComponent, ChartsComponent, RecentTransactionsComponent, QuickActionsComponent, SecurityBadgeComponent, TokenBannerComponent, FooterComponent, LanguageSelectorComponent, TranslatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   private homeService = inject(HomeService);
-  private appState = inject(AppStateService);
+  protected appState = inject(AppStateService);
 
   ngOnInit() {
     this.homeService.getHome().subscribe(() => {});

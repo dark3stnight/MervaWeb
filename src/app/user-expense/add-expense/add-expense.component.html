@@ -1,17 +1,17 @@
 <div class="add-expense-header">
   <span class="add-expense-title">
     <i class="fa-solid fa-plus" style="color:#7C3AED"></i>
-    Add expense
+    {{ 'expense.title' | translate }}
   </span>
   <span class="add-expense-hint">
     <i class="fa-solid fa-bolt" style="color:#7C3AED"></i>
-    Try: Coffee 4
+    {{ 'expense.hint' | translate }}
   </span>
 </div>
 <div class="add-expense-form">
   <div class="input-wrap">
     <i class="fa-solid fa-credit-card" style="color:#9CA3AF"></i>
-    <input type="text" placeholder="What did you spend on?" [(ngModel)]="name" [disabled]="submitting" />
+    <input type="text" [placeholder]="'expense.namePlaceholder' | translate" [(ngModel)]="name" [disabled]="submitting" />
   </div>
     <input
     type="date"
@@ -27,7 +27,7 @@
     (focus)="categoryFocus$.next($any($event).target.value)"
     (click)="categoryClick$.next($any($event).target.value)"
     #categoryTypeahead="ngbTypeahead"
-    placeholder="Category"
+    [placeholder]="'expense.categoryPlaceholder' | translate"
     autocomplete="off"
     [disabled]="submitting"
   />
@@ -57,15 +57,15 @@
       (click)="onFavoriteCurrencyChange(!favoriteCurrency)"
       [disabled]="submitting"
       type="button"
-      title="Favorite currency"
+      [title]="'expense.currencyFavorite' | translate"
     >
       <i class="fa-solid fa-star"></i>
     </button>
   </div>
   <button class="add-btn" (click)="submit()" [disabled]="submitting || !name.trim() || !amount">
-    {{ submitting ? 'Adding…' : 'Add' }}
+    {{ (submitting ? 'expense.adding' : 'expense.add') | translate }}
   </button>
 </div>
 @if (error) {
-  <p class="expense-error">{{ error }}</p>
+  <p class="expense-error">{{ error | translate }}</p>
 }

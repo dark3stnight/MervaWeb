@@ -2,8 +2,25 @@
   <!-- Area chart -->
   <div class="card chart-card">
     <div class="chart-header">
-      <span class="chart-title">Expenses over time</span>
-      <button class="period-btn">This month ▾</button>
+      <span class="chart-title">{{ 'chart.expensesOverTime' | translate }}</span>
+      <div class="period-dropdown">
+        <button class="period-btn" (click)="toggleAreaDropdown($event)">
+          {{ ('period.' + areaPeriod()) | translate }} ▾
+        </button>
+        @if (areaDropdownOpen) {
+          <div class="period-menu">
+            @for (p of periods; track p) {
+              @if (p !== 'year' || isPremium()) {
+                <button
+                  class="period-menu-item"
+                  [class.active]="areaPeriod() === p"
+                  (click)="selectAreaPeriod($event, p)"
+                >{{ ('period.' + p) | translate }}</button>
+              }
+            }
+          </div>
+        }
+      </div>
     </div>
     <apx-chart
       [series]="areaSeries"
@@ -22,8 +39,25 @@
   <!-- Donut chart -->
   <div class="card chart-card">
     <div class="chart-header">
-      <span class="chart-title">Spending by category</span>
-      <button class="period-btn">This month ▾</button>
+      <span class="chart-title">{{ 'chart.spendingByCategory' | translate }}</span>
+      <div class="period-dropdown">
+        <button class="period-btn" (click)="toggleDonutDropdown($event)">
+          {{ ('period.' + donutPeriod()) | translate }} ▾
+        </button>
+        @if (donutDropdownOpen) {
+          <div class="period-menu">
+            @for (p of periods; track p) {
+              @if (p !== 'year' || isPremium()) {
+                <button
+                  class="period-menu-item"
+                  [class.active]="donutPeriod() === p"
+                  (click)="selectDonutPeriod($event, p)"
+                >{{ ('period.' + p) | translate }}</button>
+              }
+            }
+          </div>
+        }
+      </div>
     </div>
     <div class="donut-row">
       <div class="donut-chart">
@@ -42,7 +76,7 @@
         @for (cat of categories; track cat.name) {
           <div class="legend-item">
             <span class="legend-dot" [style.background]="cat.color"></span>
-            <span class="legend-name">{{ cat.name }}</span>
+            <span class="legend-name">{{ ('category.' + cat.name) | translate }}</span>
             <span class="legend-pct">{{ cat.pct }}%</span>
             <span class="legend-amt">{{ cat.amount }}</span>
           </div>

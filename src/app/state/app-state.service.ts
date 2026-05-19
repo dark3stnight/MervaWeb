@@ -15,11 +15,19 @@ export class AppStateService {
   private _incomes = signal<IncomeResponse[]>([]);
   private _currency = signal<Currency | null>(null);
   private _loading = signal(false);
+  private _appReady = signal(false);
+  private _isPremium = signal(false);
 
   readonly expenses = this._expenses.asReadonly();
   readonly incomes = this._incomes.asReadonly();
   readonly currency = this._currency.asReadonly();
   readonly loading = this._loading.asReadonly();
+  readonly appReady = this._appReady.asReadonly();
+  readonly isPremium = this._isPremium.asReadonly();
+
+  setIsPremium(value: boolean) {
+    this._isPremium.set(value);
+  }
 
   readonly totalExpenses = computed(() => this._expenses().reduce((sum, e) => sum + e.amount, 0));
   readonly totalIncome = computed(() => this._incomes().reduce((sum, i) => sum + i.amount, 0));
@@ -39,15 +47,19 @@ export class AppStateService {
   loadAll() {
     this._loading.set(true);
     forkJoin({
-      expenses: this.expenseService.getAll(),
+      expenses: this.expenseService.getAll(13),
       incomes: this.incomeService.getAll(),
     }).subscribe({
       next: ({ expenses, incomes }) => {
         this._expenses.set(expenses);
         this._incomes.set(incomes);
         this._loading.set(false);
+        this._appReady.set(true);
       },
-      error: () => this._loading.set(false),
+      error: () => {
+        this._loading.set(false);
+        this._appReady.set(true);
+      },
     });
   }
 }

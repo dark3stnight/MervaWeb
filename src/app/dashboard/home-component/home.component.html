@@ -1,3 +1,9 @@
+@if (!appState.appReady()) {
+  <div class="loading-overlay">
+    <img class="overlay-logo" src="owl-logo.png" alt="Merva logo" />
+    <i class="fa-solid fa-spinner fa-spin overlay-spinner"></i>
+  </div>
+}
 <div class="layout">
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -31,7 +37,10 @@
       }
     </nav> -->
 
-    <app-security-badge />
+    <div class="sidebar-right">
+      <app-security-badge />
+      <app-language-selector />
+    </div>
   </aside>
 
   <!-- Main content -->
@@ -39,8 +48,8 @@
     <!-- Top bar -->
     <div class="topbar">
       <div class="greeting">
-        <h1>Good morning! ☀️</h1>
-        <p>Track your expenses in seconds. Stay in control.</p>
+        <h1>{{ 'greeting.title' | translate }}</h1>
+        <p>{{ 'greeting.subtitle' | translate }}</p>
       </div>
       <div class="topbar-right">
         <app-access-token />

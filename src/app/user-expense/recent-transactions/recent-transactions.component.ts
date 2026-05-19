@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { AddExpenseResponse } from '../services/expense.service';
 import { AppStateService } from '../../state/app-state.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 interface Transaction {
   name: string;
@@ -29,6 +30,7 @@ const FALLBACK_STYLE = { bg: '#F3F4F6', color: '#6B7280' };
 @Component({
   selector: 'app-recent-transactions',
   standalone: true,
+  imports: [TranslatePipe],
   templateUrl: './recent-transactions.component.html',
   styleUrl: './recent-transactions.component.scss'
 })

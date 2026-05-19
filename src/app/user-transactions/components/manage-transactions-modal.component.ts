@@ -3,11 +3,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppStateService } from '../../state/app-state.service';
 import { ExpenseService } from '../../user-expense/services/expense.service';
 import { IncomeService } from '../../user-income/services/income.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-manage-transactions-modal',
   standalone: true,
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './manage-transactions-modal.component.html',
   styleUrl: './manage-transactions-modal.component.scss',
 })

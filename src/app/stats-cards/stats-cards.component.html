@@ -2,7 +2,7 @@
   @for (stat of stats(); track stat.label) {
     <div class="card stat-card">
       <div class="stat-top">
-        <span class="stat-label">{{ stat.label }}</span>
+        <span class="stat-label">{{ stat.label | translate }}</span>
         <div class="stat-icon" [class]="'stat-icon--' + stat.colorClass">
           @if (stat.colorClass === 'purple') {
             <i class="fa-solid fa-chart-line"></i>

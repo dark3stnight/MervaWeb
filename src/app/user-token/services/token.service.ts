@@ -11,10 +11,8 @@ export interface RegisterTokenRequest {
   operatingSystem?: string;
   language?: string;
   timezone?: string;
-  country?: string;
-  region?: string;
-  city?: string;
-  isp?: string;
+  latitude?: number;
+  longitude?: number;
   connectionType?: string;
 }
 
@@ -29,7 +27,7 @@ export interface UpdateTokenRequest {
   connectionType?: string;
 }
 
-export interface UserBrowserData {  
+export interface UserBrowserData {
   userAgent?: string;
   browser?: string;
   browserVersion?: string;
@@ -37,6 +35,8 @@ export interface UserBrowserData {
   language?: string;
   timezone?: string;
   connectionType?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 
@@ -55,6 +55,7 @@ export interface UserTokenResponse {
   city: string | null;
   isp: string | null;
   connectionType: string | null;
+  isPremium: boolean;
   createdAt: string;
 }
 
@@ -84,20 +85,32 @@ export class TokenService {
     return this.http.patch<UserTokenResponse>(this.baseUrl, request);
   }
 
-  collectBrowserData(): UserBrowserData {
+  async collectBrowserData(): Promise<UserBrowserData> {
     const ua = navigator.userAgent;
     const { browser, browserVersion } = this.parseBrowser(ua);
     const conn = (navigator as any).connection;
 
-    return {
-      userAgent:ua,
+    const data: UserBrowserData = {
+      userAgent:      ua,
       browser,
       browserVersion,
       operatingSystem: this.parseOS(ua),
       language:        navigator.language,
       timezone:        Intl.DateTimeFormat().resolvedOptions().timeZone,
-      connectionType:  conn?.effectiveType ?? conn?.type ?? undefined      
+      connectionType:  conn?.effectiveType ?? conn?.type ?? undefined,
     };
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 })
+      );
+      data.latitude  = position.coords.latitude;
+      data.longitude = position.coords.longitude;
+    } catch {
+      // geolocation unavailable or denied — proceed without it
+    }
+
+    return data;
   }
 
   private parseBrowser(ua: string): { browser: string; browserVersion: string } {

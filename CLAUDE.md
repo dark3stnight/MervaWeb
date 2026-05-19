@@ -39,7 +39,7 @@ Reads the stored token via `TokenService.getStoredToken()` and attaches `Authori
 
 - **`HomeComponent`** — Dashboard shell: nav, charts, transaction list, budget bars, quick actions. Composes `StatsCardsComponent`, `AddExpenseComponent`, `QuickActionsComponent`, and `AccessTokenComponent`. Owns a `refreshTrigger` counter that increments on every `expenseAdded` event from `AddExpenseComponent` and every `dataChanged` event from `QuickActionsComponent`; passed as `[refresh]` to `StatsCardsComponent`, `ChartsComponent`, and `RecentTransactionsComponent`.
 - **`StatsCardsComponent`** — Four live stat cards: Total Expenses, Total Income, Net Balance, Transactions. On init and on every `refresh` input change, fetches expenses and incomes in parallel via `forkJoin`. Computes totals and net balance from the API responses. Net Balance arrow reflects positive/negative sign.
-- **`AddExpenseComponent`** — Add expense form wired to the API. Submits to `POST /expenses` via `ExpenseService`. Emits `expenseAdded` on success to trigger a stats refresh. Contains two feature subfolders:
+- **`AddExpenseComponent`** — Add expense form wired to the API. Submits to `POST /expenses` via `ExpenseService`. Emits `expenseAdded` on success to trigger a stats refresh. Default date uses local timezone methods (`getFullYear/getMonth/getDate`) — never `toISOString()` which would produce a UTC date and show the wrong day for users behind UTC. Contains two feature subfolders:
   - `ExpenseCurrency/expense-currency.ts` — `Currency` string enum
   - `ExpenseCategory/expense-category.ts` — `Category` string enum
 - **`QuickActionsComponent`** — Action buttons that open Bootstrap modals via `NgbModal`. Emits `dataChanged` when an income is successfully added or a transaction is deleted, so the parent can increment `refreshTrigger`. Modal components live in `home/quick-actions/modals/`:
@@ -53,7 +53,7 @@ Reads the stored token via `TokenService.getStoredToken()` and attaches `Authori
 
 ### Services (`src/app/services/`)
 
-- **`ExpenseService`** — `add(request)` → `POST /expenses`; `getAll()` → `GET /expenses` (returns decrypted `AddExpenseResponse[]` ordered by date desc, soft-deleted rows excluded by backend); `delete(id)` → `DELETE /expenses/{id}`
+- **`ExpenseService`** — `add(request)` → `POST /expenses`; `getAll()` → `GET /expenses?months=3` (returns decrypted `AddExpenseResponse[]` for the last 3 months, ordered by date desc, soft-deleted rows excluded by backend); `delete(id)` → `DELETE /expenses/{id}`
 - **`IncomeService`** — `add(request)` → `POST /incomes`; `getAll()` → `GET /incomes` (returns decrypted `IncomeResponse[]` ordered by date desc, soft-deleted rows excluded by backend); `delete(id)` → `DELETE /incomes/{id}`
 - **`TokenService`** — HTTP calls to `TokensController` (register, validate, get). Collects browser fingerprint data. Exposes `getStoredToken()` to read the token from `localStorage`.
 - **`HomeService`** — Calls `GET /home`

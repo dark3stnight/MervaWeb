@@ -3,11 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddRecurringModalComponent } from '../../user-expense/recurring-modal/add-recurring-modal.component';
 import { AddIncomeModalComponent } from '../../user-income/component/add-income-modal.component';
 import { ManageTransactionsModalComponent } from '../../user-transactions/components/manage-transactions-modal.component';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-quick-actions',
   standalone: true,
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './quick-actions.component.html',
   styleUrl: './quick-actions.component.scss',
 })

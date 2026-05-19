@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SecurityInfoModalComponent } from './security-info-modal.component';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-security-badge',
   standalone: true,
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './security-badge.component.html',
   styleUrl: './security-badge.component.scss',
 })

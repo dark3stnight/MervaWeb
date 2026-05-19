@@ -4,6 +4,31 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.overlay-logo {
+  width: 90px;
+  height: auto;
+  filter:
+    drop-shadow(0 14px 22px rgba(22, 135, 255, 0.22))
+    drop-shadow(0 4px 8px rgba(36, 89, 245, 0.12));
+}
+
+.overlay-spinner {
+  font-size: 22px;
+  color: #7C3AED;
+}
+
 // Layout
 .layout {
   display: flex;
@@ -82,6 +107,13 @@ nav {
   justify-content: center;
   width: 18px;
   flex-shrink: 0;
+}
+
+.sidebar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 // Main

@@ -9,13 +9,14 @@ import { ExpenseService } from '../services/expense.service';
 import { TokenService } from '../../user-token/services/token.service';
 import { PreferenceKeys } from '../../user-preference/preference-keys';
 import { AppStateService } from '../../state/app-state.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 export { Currency, Category };
 
 @Component({
   selector: 'app-add-expense',
   standalone: true,
-  imports: [FormsModule, NgbTypeahead],
+  imports: [FormsModule, NgbTypeahead, TranslatePipe],
   templateUrl: './add-expense.component.html',
   styleUrl: './add-expense.component.scss',
 })
@@ -121,13 +122,16 @@ export class AddExpenseComponent {
         this.appState.loadAll();
       },
       error: () => {
-        this.error = 'Failed to add expense. Please try again.';
+        this.error = 'expense.error';
         this.submitting = false;
       },
     });
   }
 
   private today(): string {
-    return new Date().toISOString().split('T')[0];
+    const d = new Date();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${month}-${day}`;
   }
 }

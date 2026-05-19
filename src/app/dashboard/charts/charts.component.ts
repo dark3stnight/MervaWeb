@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, HostListener, effect, inject, signal } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import type {
   ApexAxisChartSeries,
@@ -16,7 +16,10 @@ import type {
 } from 'ng-apexcharts';
 import { AddExpenseResponse } from '../../user-expense/services/expense.service';
 import { AppStateService } from '../../state/app-state.service';
+import { LanguageService } from '../../i18n/language.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
+type Period = 'week' | 'month' | 'quarter' | 'year';
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Food & Dining': '#F472B6',
@@ -36,18 +39,27 @@ const FALLBACK_COLORS = ['#F472B6', '#60A5FA', '#FBBF24', '#A78BFA', '#34D399', 
 @Component({
   selector: 'app-charts',
   standalone: true,
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, TranslatePipe],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.scss'
 })
 export class ChartsComponent {
   private appState = inject(AppStateService);
+  private langService = inject(LanguageService);
+
+  readonly isPremium = this.appState.isPremium;
+  readonly periods: readonly Period[] = ['week', 'month', 'quarter', 'year'];
+
+  areaPeriod = signal<Period>('month');
+  donutPeriod = signal<Period>('month');
+  areaDropdownOpen = false;
+  donutDropdownOpen = false;
 
   categories: { name: string; pct: number; amount: string; color: string }[] = [];
 
   // ── Area chart ────────────────────────────────────────────────────────────
 
-  areaSeries: ApexAxisChartSeries = [{ name: 'Expenses', data: [] }];
+  areaSeries: ApexAxisChartSeries = [{ name: '', data: [] }];
 
   areaChart: ApexChart = {
     type: 'area',
@@ -137,36 +149,102 @@ export class ChartsComponent {
   constructor() {
     effect(() => {
       const expenses = this.appState.expenses();
-      this.buildAreaChart(expenses);
-      this.buildDonutChart(expenses);
+      this.buildAreaChart(expenses, this.areaPeriod());
+      this.buildDonutChart(expenses, this.donutPeriod());
     });
   }
 
-  private buildAreaChart(expenses: AddExpenseResponse[]) {
+  @HostListener('document:click')
+  closeDropdowns(): void {
+    this.areaDropdownOpen = false;
+    this.donutDropdownOpen = false;
+  }
+
+  toggleAreaDropdown(event: Event): void {
+    event.stopPropagation();
+    this.areaDropdownOpen = !this.areaDropdownOpen;
+    this.donutDropdownOpen = false;
+  }
+
+  toggleDonutDropdown(event: Event): void {
+    event.stopPropagation();
+    this.donutDropdownOpen = !this.donutDropdownOpen;
+    this.areaDropdownOpen = false;
+  }
+
+  selectAreaPeriod(event: Event, period: Period): void {
+    event.stopPropagation();
+    if (period === 'year' && !this.appState.isPremium()) return;
+    this.areaPeriod.set(period);
+    this.areaDropdownOpen = false;
+  }
+
+  selectDonutPeriod(event: Event, period: Period): void {
+    event.stopPropagation();
+    if (period === 'year' && !this.appState.isPremium()) return;
+    this.donutPeriod.set(period);
+    this.donutDropdownOpen = false;
+  }
+
+  private getPeriodStart(period: Period): Date {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-
-    const thisMonth = expenses
-      .filter(e => {
-        const d = new Date(e.expenseDate);
-        return d.getFullYear() === year && d.getMonth() === month;
-      })
-      .sort((a, b) => a.expenseDate.localeCompare(b.expenseDate));
-
-    const labels = thisMonth.map(e => {
-      const [y, m, day] = e.expenseDate.substring(0, 10).split('-').map(Number);
-      return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    });
-    const data = thisMonth.map(e => parseFloat(e.amount.toFixed(2)));
-
-    this.areaSeries = [{ name: 'Expenses', data }];
-    this.areaXAxis = { ...this.areaXAxis, categories: labels };
+    switch (period) {
+      case 'week':    return new Date(now.getTime() -   7 * 24 * 60 * 60 * 1000);
+      case 'month':   return new Date(now.getTime() -  30 * 24 * 60 * 60 * 1000);
+      case 'quarter': return new Date(now.getTime() -  90 * 24 * 60 * 60 * 1000);
+      case 'year':    return new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+    }
   }
 
-  private buildDonutChart(expenses: AddExpenseResponse[]) {
+  private buildAreaChart(expenses: AddExpenseResponse[], period: Period): void {
+    const from = this.getPeriodStart(period);
+
+    const filtered = expenses.filter(e => {
+      const [y, m, d] = e.expenseDate.substring(0, 10).split('-').map(Number);
+      return new Date(y, m - 1, d) >= from;
+    });
+
+    if (period === 'year') {
+      const byMonth = new Map<string, number>();
+      for (const e of filtered) {
+        const key = e.expenseDate.substring(0, 7);
+        byMonth.set(key, (byMonth.get(key) ?? 0) + e.amount);
+      }
+      const sorted = Array.from(byMonth.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+      const labels = sorted.map(([key]) => {
+        const [y, m] = key.split('-').map(Number);
+        return new Date(y, m - 1, 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      });
+      const data = sorted.map(([, amt]) => parseFloat(amt.toFixed(2)));
+      this.areaSeries = [{ name: this.langService.translate('chart.expenses'), data }];
+      this.areaXAxis = { ...this.areaXAxis, categories: labels };
+    } else {
+      const byDay = new Map<string, number>();
+      for (const e of filtered) {
+        const key = e.expenseDate.substring(0, 10);
+        byDay.set(key, (byDay.get(key) ?? 0) + e.amount);
+      }
+      const sorted = Array.from(byDay.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+      const labels = sorted.map(([key]) => {
+        const [y, m, d] = key.split('-').map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      });
+      const data = sorted.map(([, amt]) => parseFloat(amt.toFixed(2)));
+      this.areaSeries = [{ name: this.langService.translate('chart.expenses'), data }];
+      this.areaXAxis = { ...this.areaXAxis, categories: labels };
+    }
+  }
+
+  private buildDonutChart(expenses: AddExpenseResponse[], period: Period): void {
+    const from = this.getPeriodStart(period);
+
+    const filtered = expenses.filter(e => {
+      const [y, m, d] = e.expenseDate.substring(0, 10).split('-').map(Number);
+      return new Date(y, m - 1, d) >= from;
+    });
+
     const byCategory = new Map<string, number>();
-    for (const e of expenses) {
+    for (const e of filtered) {
       const cat = e.category ?? 'Other';
       byCategory.set(cat, (byCategory.get(cat) ?? 0) + e.amount);
     }
@@ -196,7 +274,7 @@ export class ChartsComponent {
             show: true,
             total: {
               show: true,
-              label: 'Total',
+              label: this.langService.translate('chart.total'),
               color: '#9CA3AF',
               fontSize: '10px',
               formatter: () => total.toLocaleString('en-US', { style: 'currency', currency: 'USD' }),

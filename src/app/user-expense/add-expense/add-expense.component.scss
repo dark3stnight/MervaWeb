@@ -39,6 +39,7 @@
 
 .input-wrap {
   flex: 1;
+  max-width: 500px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -60,7 +61,7 @@
 }
 
 .amount-input {
-  width: 80px;
+  width: 150px;
   border: 1px solid #E5E7EB;
   border-radius: 8px;
   padding: 9px 12px;
