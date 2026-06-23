@@ -4,7 +4,7 @@
           style="width:34px;height:34px;background:#EDE9FE;flex-shrink:0">
       <i class="fa-solid fa-lock" style="color:#7C3AED"></i>
     </span>
-    How your token works
+    {{ 'explainer.title' | translate }}
   </h5>
   <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
 </div>
@@ -18,11 +18,8 @@
         <i class="fa-solid fa-layer-group" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Generated automatically</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          When you first open Mervane, a unique access token is generated for you and saved in your
-          browser. No registration, email, or password — your token is your identity.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'explainer.autoTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'explainer.autoBody' | translate }}</p>
       </div>
     </div>
 
@@ -32,11 +29,8 @@
         <i class="fa-solid fa-mobile-screen" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Access from any device</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Copy your token from the top-right corner of the dashboard and enter it on any other
-          device or browser to access the same data. Your token is the only credential needed.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'explainer.anyDeviceTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'explainer.anyDeviceBody' | translate }}</p>
       </div>
     </div>
 
@@ -46,12 +40,8 @@
         <i class="fa-solid fa-triangle-exclamation" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">Keep it private</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Treat your token like a password. Anyone who has it can read and modify your data.
-          If you believe your token has been compromised, generate a new one from the token panel
-          — your existing data will no longer be accessible with the old token.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'explainer.privateTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'explainer.privateBody' | translate }}</p>
       </div>
     </div>
 
@@ -61,11 +51,8 @@
         <i class="fa-solid fa-circle-info" style="color:#374151"></i>
       </span>
       <div>
-        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">No recovery option</strong>
-        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">
-          Since there is no account linked to an email, a lost token cannot be recovered. Back up
-          your token somewhere safe so you never lose access to your data.
-        </p>
+        <strong class="d-block" style="font-size:13.5px;color:#111827;margin-bottom:3px">{{ 'explainer.noRecoveryTitle' | translate }}</strong>
+        <p class="mb-0" style="font-size:12.5px;color:#6B7280;line-height:1.5">{{ 'explainer.noRecoveryBody' | translate }}</p>
       </div>
     </div>
 
@@ -73,5 +60,5 @@
 </div>
 
 <div class="modal-footer border-0 pt-0">
-  <button type="button" class="btn btn-light" (click)="modal.dismiss()">Close</button>
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'modal.close' | translate }}</button>
 </div>

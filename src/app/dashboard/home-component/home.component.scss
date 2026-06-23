@@ -1,6 +1,7 @@
 :host {
   display: block;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
@@ -29,15 +30,14 @@
   color: #7C3AED;
 }
 
-// Layout
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background: #F9FAFB;
 }
 
-// Header nav
 .sidebar {
   width: 100%;
   background: #fff;
@@ -67,6 +67,18 @@
   filter:
     drop-shadow(0 14px 22px rgba(22, 135, 255, 0.22))
     drop-shadow(0 4px 8px rgba(36, 89, 245, 0.12));
+}
+
+.nav-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.sidebar-token {
+  flex-shrink: 0;
 }
 
 nav {
@@ -109,24 +121,18 @@ nav {
   flex-shrink: 0;
 }
 
-.sidebar-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-// Main
 .main {
   flex: 1;
-  overflow-y: auto;
+  min-height: 0;
+  height: auto;
+  overflow: visible;
+  overflow-x: hidden;
   padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-// Topbar
 .topbar {
   display: flex;
   align-items: flex-start;
@@ -141,20 +147,13 @@ nav {
     color: #111827;
     margin: 0 0 4px;
   }
+
   p {
     font-size: 13.5px;
     color: #6B7280;
     margin: 0;
   }
 }
-
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
 
 .icon-btn {
   width: 34px;
@@ -169,7 +168,9 @@ nav {
   color: #6B7280;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 
-  &:hover { background: #F3F4F6; }
+  &:hover {
+    background: #F3F4F6;
+  }
 }
 
 .upgrade-btn {
@@ -184,10 +185,43 @@ nav {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  &:hover { opacity: 0.9; }
+
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
-// Cards
+/* AdSense slots */
+
+.ad-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ad-container-top {  
+  // margin: 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-container-card {  
+  // margin: 16px 0;
+  display: block;
+}
+
+.ad-container ins.adsbygoogle {
+  display: block;
+  width: 100% ;
+  max-width: 100%;
+}
+ins.adsbygoogle[data-ad-status="unfilled"]{
+display: none !important;
+}
+.ad-container:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+  display: none !important;
+}
+
 .card {
   background: #fff;
   border: 1px solid #E5E7EB;
@@ -215,7 +249,17 @@ nav {
   }
 
   .greeting {
-    h1 { font-size: 20px; }
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  .ad-container-top {
+    min-height: 100px;
+  }
+
+  .ad-container-card {
+    min-height: 250px;
   }
 }
 
@@ -226,7 +270,20 @@ nav {
   }
 
   .greeting {
-    h1 { font-size: 18px; }
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+  .sidebar {
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 10px;
+  }
+
+  .sidebar-token {
+    flex-basis: 100%;
+    border-top: 1px solid #E5E7EB;
+    padding-top: 8px;
   }
 }
-

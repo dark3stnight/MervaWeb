@@ -10,6 +10,7 @@ import { TokenService } from '../../user-token/services/token.service';
 import { PreferenceKeys } from '../../user-preference/preference-keys';
 import { AppStateService } from '../../state/app-state.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { LanguageService } from '../../i18n/language.service';
 
 export { Currency, Category };
 
@@ -24,6 +25,7 @@ export class AddExpenseComponent {
   private expenseService = inject(ExpenseService);
   private tokenService = inject(TokenService);
   private appState = inject(AppStateService);
+  private langService = inject(LanguageService);
 
   name = '';
   amount: number | null = null;
@@ -84,6 +86,12 @@ export class AddExpenseComponent {
     );
   };
 
+  readonly categoryInputFormatter = (cat: Category | '') =>
+    cat ? this.langService.translate('category.' + cat) : '';
+
+  readonly categoryResultFormatter = (cat: Category) =>
+    this.langService.translate('category.' + cat);
+
   searchCategory: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(150), distinctUntilChanged());
     const clicksWithClosedPopup$ = this.categoryClick$.pipe(
@@ -91,7 +99,10 @@ export class AddExpenseComponent {
     );
     return merge(debouncedText$, this.categoryFocus$, clicksWithClosedPopup$).pipe(
       map(term =>
-        this.categories.filter(c => term === '' || c.toLowerCase().includes(term.toLowerCase())),
+        this.categories.filter(c =>
+          term === '' ||
+          this.langService.translate('category.' + c).toLowerCase().includes(term.toLowerCase()),
+        ),
       ),
     );
   };

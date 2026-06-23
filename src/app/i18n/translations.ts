@@ -60,6 +60,7 @@ const en: Record<string, string> = {
   'chart.total':              'Total',
 
   // Expense categories (display only — API stores the English value)
+  'category.Groceries': 'Groceries',
   'category.Food & Dining': 'Food & Dining',
   'category.Transport':     'Transport',
   'category.Shopping':      'Shopping',
@@ -132,6 +133,17 @@ const en: Record<string, string> = {
   'terms.warrantyBody':       'Mervane is provided "as is" without warranty of any kind. We do not guarantee uninterrupted availability, error-free operation, or the permanent retention of your data. Use the service at your own risk.',
   'terms.acceptableUseTitle': 'Acceptable use',
   'terms.acceptableUseBody':  'Mervane is intended for personal finance tracking only. You may not use the service for unlawful purposes, attempt to reverse-engineer the encryption, or interfere with the security or availability of the platform.',
+
+  // How it works modal
+  'explainer.title':           'How your token works',
+  'explainer.autoTitle':       'Generated automatically',
+  'explainer.autoBody':        'When you first open Mervane, a unique access token is generated for you and saved in your browser. No registration, email, or password — your token is your identity.',
+  'explainer.anyDeviceTitle':  'Access from any device',
+  'explainer.anyDeviceBody':   'Copy your token from the top-right corner of the dashboard and enter it on any other device or browser to access the same data. Your token is the only credential needed.',
+  'explainer.privateTitle':    'Keep it private',
+  'explainer.privateBody':     'Treat your token like a password. Anyone who has it can read and modify your data. If you believe your token has been compromised, generate a new one from the token panel — your existing data will no longer be accessible with the old token.',
+  'explainer.noRecoveryTitle': 'No recovery option',
+  'explainer.noRecoveryBody':  'Since there is no account linked to an email, a lost token cannot be recovered. Back up your token somewhere safe so you never lose access to your data.',
 };
 
 const es: Record<string, string> = {
@@ -194,6 +206,7 @@ const es: Record<string, string> = {
   'chart.total':              'Total',
 
   // Expense categories (display only — API stores the English value)
+  'category.Groceries': 'Provisiones',
   'category.Food & Dining': 'Comida y restaurantes',
   'category.Transport':     'Transporte',
   'category.Shopping':      'Compras',
@@ -266,6 +279,17 @@ const es: Record<string, string> = {
   'terms.warrantyBody':       'Mervane se proporciona "tal cual" sin garantía de ningún tipo. No garantizamos disponibilidad ininterrumpida, operación sin errores ni la retención permanente de tus datos. Usa el servicio bajo tu propio riesgo.',
   'terms.acceptableUseTitle': 'Uso aceptable',
   'terms.acceptableUseBody':  'Mervane está diseñado exclusivamente para el seguimiento de finanzas personales. No puedes usar el servicio con fines ilegales, intentar realizar ingeniería inversa del cifrado ni interferir con la seguridad o disponibilidad de la plataforma.',
+
+  // How it works modal
+  'explainer.title':           'Cómo funciona tu token',
+  'explainer.autoTitle':       'Generado automáticamente',
+  'explainer.autoBody':        'La primera vez que abres Mervane, se genera un token de acceso único que se guarda en tu navegador. Sin registro, correo ni contraseña — tu token es tu identidad.',
+  'explainer.anyDeviceTitle':  'Accede desde cualquier dispositivo',
+  'explainer.anyDeviceBody':   'Copia tu token desde la esquina superior derecha del panel y úsalo en cualquier otro dispositivo o navegador para acceder a los mismos datos. Tu token es la única credencial necesaria.',
+  'explainer.privateTitle':    'Mantenlo privado',
+  'explainer.privateBody':     'Trata tu token como una contraseña. Cualquier persona que lo tenga puede leer y modificar tus datos. Si crees que tu token fue comprometido, genera uno nuevo desde el panel del token — tus datos existentes ya no serán accesibles con el token anterior.',
+  'explainer.noRecoveryTitle': 'Sin opción de recuperación',
+  'explainer.noRecoveryBody':  'Como no hay ninguna cuenta vinculada a un correo electrónico, un token perdido no se puede recuperar. Guarda tu token en un lugar seguro para no perder el acceso a tus datos.',
 };
 
 export const TRANSLATIONS: Record<Language, Record<string, string>> = { en, es };

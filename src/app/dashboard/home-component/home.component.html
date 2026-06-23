@@ -7,40 +7,18 @@
 <div class="layout">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">      
-        <img class="logo-image" src="owl-logo.png" alt="Merva logo"/>      
-        <h1 class="brand-name">Mervane =)</h1>
+    <div class="logo">
+        <img class="logo-image" src="owl-logo.png" alt="Merva logo"/>
+        <h1 class="brand-name">Mervane Expense Tracker =)</h1>
     </div>
-
-    <!-- <nav>
-      @for (item of navItems; track item.label) {
-        <a class="nav-item" [class.active]="item.active">
-          <span class="nav-icon">
-            @if (item.label === 'Dashboard') {
-              <i class="fa-solid fa-table-cells"></i>
-            } @else if (item.label === 'Expenses') {
-              <i class="fa-solid fa-credit-card"></i>
-            } @else if (item.label === 'Analytics') {
-              <i class="fa-solid fa-chart-column"></i>
-            } @else if (item.label === 'Categories') {
-              <i class="fa-solid fa-table-cells-large"></i>
-            } @else if (item.label === 'Budgets') {
-              <i class="fa-solid fa-bullseye"></i>
-            } @else if (item.label === 'Recurring') {
-              <i class="fa-solid fa-repeat"></i>
-            } @else {
-              <i class="fa-solid fa-upload"></i>
-            }
-          </span>
-          {{ item.label }}
-        </a>
-      }
-    </nav> -->
-
-    <div class="sidebar-right">
-      <app-security-badge />
+    <app-security-badge />
+    <div class="nav-controls">
       <app-language-selector />
     </div>
+    <div class="sidebar-token">
+      <app-access-token />
+    </div>
+
   </aside>
 
   <!-- Main content -->
@@ -51,20 +29,16 @@
         <h1>{{ 'greeting.title' | translate }}</h1>
         <p>{{ 'greeting.subtitle' | translate }}</p>
       </div>
-      <div class="topbar-right">
-        <app-access-token />
-        <!-- <button class="icon-btn">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <button class="icon-btn">
-          <i class="fa-solid fa-circle-info"></i>
-        </button>
-        <button class="upgrade-btn">
-          <i class="fa-solid fa-bolt"></i>
-          Upgrade
-        </button> -->
-      </div>
     </div>
+
+    <!-- AdSense — below header -->
+  <div class="ad-container ad-container-top">
+    <ins class="adsbygoogle"    
+    data-ad-client="ca-pub-8475608120678673"
+    data-ad-slot="7076915947"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  </div>
 
     <!-- Add Expense -->
     <app-add-expense />
@@ -74,6 +48,15 @@
 
     <!-- Stat cards -->
     <app-stats-cards />
+
+    <!-- AdSense — below stat cards -->
+  <div class="ad-container ad-container-card">
+    <ins class="adsbygoogle"        
+        data-ad-client="ca-pub-8475608120678673"
+        data-ad-slot="6452579503"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+  </div>
 
     <!-- Charts row -->
     <app-charts />
